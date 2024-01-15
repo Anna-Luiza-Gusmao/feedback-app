@@ -38,7 +38,7 @@ export const ConnectGoogleButton = styled.button`
     width: 100%;
     gap: 1rem;
 
-    padding: 1rem;
+    padding: 0.75rem;
     border-radius: 8px;
     border-bottom: 2px solid ${props => props.theme.colors["purple-300"]};
     box-shadow: 0px 4px 8px 0px ${props => props.theme.colors["gray-600"]};
