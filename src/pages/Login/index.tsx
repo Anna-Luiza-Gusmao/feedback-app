@@ -1,0 +1,25 @@
+import { ConnectGoogleButton, LoginBox, PageContainer } from "./styles"
+import FeedbackAppLogo from '../../assets/logo.png'
+import LogoGoogle from '../../assets/Google Icon.png'
+import { useNavigate } from "react-router-dom"
+
+export function LoginPage() {
+    const navigate = useNavigate()
+
+    const handleConnectWithGoogle = () => {
+        navigate('/home')
+    }
+
+    return (
+        <PageContainer>
+            <LoginBox>
+                <img src={FeedbackAppLogo} alt="Feedback App Logo" />
+                <h1>Faça login com sua conta Google para acessar o sistema.</h1>
+                <ConnectGoogleButton onClick={handleConnectWithGoogle}>
+                    <img src={LogoGoogle} alt="Ícone do Google" />
+                    <p>Entre com o Google</p>
+                </ConnectGoogleButton>
+            </LoginBox>
+        </PageContainer>
+    )
+}
