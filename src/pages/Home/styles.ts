@@ -53,8 +53,23 @@ export const HeaderBoxFromNavbar = styled.div`
     align-items: center;
 
     p {
-        font-size: 0.875rem;
+        font-size: 1rem;
         font-weight: 700;
+    }
+
+    button {
+        all: unset;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 8px;
+
+        font-size: 0.875rem;
+        color: ${props => props.theme.colors["gray-400"]};
+        transition: background 0.25s ease-in-out;
+    
+        &:hover {
+            background-color: ${props => props.theme.colors["gray-50"]};
+        }
     }
 `
 
@@ -62,6 +77,7 @@ export const CheckboxContent = styled.div`
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    gap: 0.5rem;
 
     div {
         display: flex;

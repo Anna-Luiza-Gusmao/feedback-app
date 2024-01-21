@@ -9,8 +9,24 @@ import {
     NavBar
 } from "./styles"
 import { Header } from "./components/Header"
+import { CheckboxStatus } from "./components/Checkbox"
+import { useState } from "react"
 
 export function HomePage() {
+    const [isCheckedStatus, setIsCheckedStatus] = useState({
+        opened: false,
+        inProgress: false,
+        concluded: false
+    })
+
+    const handleClearFilter = () => {
+        setIsCheckedStatus({
+            opened: false,
+            inProgress: false,
+            concluded: false
+        })
+    }
+
     return (
         <HomeContainer>
             <NavBar>
@@ -26,29 +42,35 @@ export function HomePage() {
                 <BoxFromNavbar>
                     <HeaderBoxFromNavbar>
                         <p>Status</p>
-                        <button>Limpar filtro</button>
+                        <button onClick={handleClearFilter}>Limpar filtro</button>
                     </HeaderBoxFromNavbar>
                     <CheckboxContent>
                         <div>
-                            <label>
-                                <input type="checkbox" checked />
-                                Em Aberto
-                            </label>
-                            <p>3</p>
+                            <CheckboxStatus
+                                labelName="Em Aberto"
+                                typeChecked="opened"
+                                checked={isCheckedStatus.opened}
+                                setIsCheckedStatus={setIsCheckedStatus}
+                            />
+                            <p>0</p>
                         </div>
                         <div>
-                            <label>
-                                <input type="checkbox" checked />
-                                Em Progresso
-                            </label>
-                            <p>3</p>
+                            <CheckboxStatus
+                                labelName="Em Progresso"
+                                typeChecked="inProgress"
+                                checked={isCheckedStatus.inProgress}
+                                setIsCheckedStatus={setIsCheckedStatus}
+                            />
+                            <p>0</p>
                         </div>
                         <div>
-                            <label>
-                                <input type="checkbox" checked />
-                                Concluído
-                            </label>
-                            <p>3</p>
+                            <CheckboxStatus
+                                labelName="Concluído"
+                                typeChecked="concluded"
+                                checked={isCheckedStatus.concluded}
+                                setIsCheckedStatus={setIsCheckedStatus}
+                            />
+                            <p>0</p>
                         </div>
                     </CheckboxContent>
                 </BoxFromNavbar>
