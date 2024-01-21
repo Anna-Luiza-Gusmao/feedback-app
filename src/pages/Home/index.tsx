@@ -8,6 +8,7 @@ import {
     HomeContainer,
     NavBar
 } from "./styles"
+import { Header } from "./components/Header"
 
 export function HomePage() {
     return (
@@ -53,7 +54,7 @@ export function HomePage() {
                 </BoxFromNavbar>
             </NavBar>
             <Content>
-                Conteúdo Principal
+                <Header />
             </Content>
         </HomeContainer>
     )
