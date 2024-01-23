@@ -47,7 +47,37 @@ export const BoxFromNavbar = styled.div`
     background-color: ${props => props.theme.colors.white};
 `
 
-export const HeaderBoxFromNavbar = styled.div`
+export const HeaderTagsFromNavbar = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    p {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+`
+
+interface Tag {
+    selected: boolean
+}
+
+export const Tag = styled.button<Tag>`
+    all: unset;
+    padding: 0.375rem 0.75rem;
+    margin: 0.2rem;
+
+    cursor: pointer;
+    border-radius: 8px;
+    color: ${props => props.theme.colors.white};
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: ${
+        props => props.selected ? props.theme.colors["blue-700"] : props.theme.colors["purple-300"]
+    };
+`
+
+export const HeaderStatusFromNavbar = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;

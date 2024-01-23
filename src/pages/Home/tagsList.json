@@ -1,0 +1,12 @@
+{
+    "tags": {
+        "Todos": true,
+        "UX/UI": false,
+        "Front-end": false,
+        "Back-end": false,
+        "Bug": false,
+        "Feature": false,
+        "Enhancement": false,
+        "Tests": false
+    }
+}

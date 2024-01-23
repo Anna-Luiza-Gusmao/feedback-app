@@ -3,14 +3,21 @@ import {
     BoxFromNavbar,
     CheckboxContent,
     Content,
-    HeaderBoxFromNavbar,
     HeaderFromNavbar,
+    HeaderStatusFromNavbar,
+    HeaderTagsFromNavbar,
     HomeContainer,
-    NavBar
+    NavBar,
+    Tag
 } from "./styles"
 import { Header } from "./components/Header"
 import { CheckboxStatus } from "./components/Checkbox"
 import { useState } from "react"
+import TagsList from "./tagsList.json"
+
+interface CheckedTags {
+    [key: string]: boolean
+}
 
 export function HomePage() {
     const [isCheckedStatus, setIsCheckedStatus] = useState({
@@ -18,12 +25,43 @@ export function HomePage() {
         inProgress: false,
         concluded: false
     })
+    const [isCheckedTags, setIsCheckedTags] = useState<CheckedTags>(TagsList.tags)
 
     const handleClearFilter = () => {
         setIsCheckedStatus({
             opened: false,
             inProgress: false,
             concluded: false
+        })
+    }
+
+    const handleSelectedTag = (tagName: string) => {
+        setIsCheckedTags((prevTags) => {
+            let updatedTags: CheckedTags
+
+            if (tagName === 'Todos') {
+                updatedTags = Object.keys(prevTags).reduce((tags, key) => {
+                    if(key === "Todos") tags[key] = true
+                    tags[key] = false
+                    
+                    return tags
+                }, {} as CheckedTags)
+
+                if (Object.keys(updatedTags).some((key) => !updatedTags[key])) {
+                    updatedTags.Todos = true
+                }
+            } else {
+                updatedTags = {
+                    ...prevTags,
+                    [tagName]: !prevTags[tagName]
+                }
+
+                if (Object.keys(updatedTags).some((key) => key !== 'Todos' && updatedTags[key])) {
+                    updatedTags.Todos = false
+                }
+            }
+
+            return updatedTags
         })
     }
 
@@ -35,15 +73,26 @@ export function HomePage() {
                     <FunnelSimple size={28} />
                 </HeaderFromNavbar>
                 <BoxFromNavbar>
-                    <HeaderBoxFromNavbar>
+                    <HeaderTagsFromNavbar>
                         <p>Tags</p>
-                    </HeaderBoxFromNavbar>
+                        <section>
+                            {Object.keys(isCheckedTags).map((tagName) => (
+                                <Tag
+                                    key={tagName}
+                                    selected={isCheckedTags[tagName]}
+                                    onClick={() => handleSelectedTag(tagName)}
+                                >
+                                    {tagName}
+                                </Tag>
+                            ))}
+                        </section>
+                    </HeaderTagsFromNavbar>
                 </BoxFromNavbar>
                 <BoxFromNavbar>
-                    <HeaderBoxFromNavbar>
+                    <HeaderStatusFromNavbar>
                         <p>Status</p>
                         <button onClick={handleClearFilter}>Limpar filtro</button>
-                    </HeaderBoxFromNavbar>
+                    </HeaderStatusFromNavbar>
                     <CheckboxContent>
                         <div>
                             <CheckboxStatus
