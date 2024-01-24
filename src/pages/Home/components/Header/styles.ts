@@ -5,6 +5,7 @@ export const HeaderContainer = styled.div`
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.5rem;
+    margin-bottom: 1.25rem;
 
     background-color: ${props => props.theme.colors["blue-700"]};
     border-radius: 16px;

@@ -3,6 +3,7 @@ import {
     BoxFromNavbar,
     CheckboxContent,
     Content,
+    FeedbackList,
     HeaderFromNavbar,
     HeaderStatusFromNavbar,
     HeaderTagsFromNavbar,
@@ -14,6 +15,7 @@ import { Header } from "./components/Header"
 import { CheckboxStatus } from "./components/Checkbox"
 import { useState } from "react"
 import TagsList from "./tagsList.json"
+import { FeedbackBox } from "../../components/FeedbackBox"
 
 interface CheckedTags {
     [key: string]: boolean
@@ -41,9 +43,9 @@ export function HomePage() {
 
             if (tagName === 'Todos') {
                 updatedTags = Object.keys(prevTags).reduce((tags, key) => {
-                    if(key === "Todos") tags[key] = true
+                    if (key === "Todos") tags[key] = true
                     tags[key] = false
-                    
+
                     return tags
                 }, {} as CheckedTags)
 
@@ -79,7 +81,7 @@ export function HomePage() {
                             {Object.keys(isCheckedTags).map((tagName) => (
                                 <Tag
                                     key={tagName}
-                                    selected={isCheckedTags[tagName]}
+                                    $selected={isCheckedTags[tagName]}
                                     onClick={() => handleSelectedTag(tagName)}
                                 >
                                     {tagName}
@@ -126,6 +128,13 @@ export function HomePage() {
             </NavBar>
             <Content>
                 <Header />
+                <FeedbackList>
+                    {
+                        Array(5).fill(null).map((_, index) => (
+                            <FeedbackBox key={index} tagsName={["Front-end", "Tests"]}/>
+                        ))
+                    }
+                </FeedbackList>
             </Content>
         </HomeContainer>
     )

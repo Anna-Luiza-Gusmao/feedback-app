@@ -58,11 +58,7 @@ export const HeaderTagsFromNavbar = styled.div`
     }
 `
 
-interface Tag {
-    selected: boolean
-}
-
-export const Tag = styled.button<Tag>`
+export const Tag = styled.button<{ $selected: boolean }>`
     all: unset;
     padding: 0.375rem 0.75rem;
     margin: 0.2rem;
@@ -73,7 +69,7 @@ export const Tag = styled.button<Tag>`
     font-size: 0.875rem;
     font-weight: 500;
     background-color: ${
-        props => props.selected ? props.theme.colors["blue-700"] : props.theme.colors["purple-300"]
+        props => props.$selected ? props.theme.colors["blue-700"] : props.theme.colors["purple-300"]
     };
 `
 
@@ -117,4 +113,10 @@ export const CheckboxContent = styled.div`
 
 export const Content = styled.main`
     width: 75vw;
+`
+
+export const FeedbackList = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 `
