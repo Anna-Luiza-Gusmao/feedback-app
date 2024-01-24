@@ -68,8 +68,7 @@ export const Tag = styled.button<{ $selected: boolean }>`
     color: ${props => props.theme.colors.white};
     font-size: 0.875rem;
     font-weight: 500;
-    background-color: ${
-        props => props.$selected ? props.theme.colors["blue-700"] : props.theme.colors["purple-300"]
+    background-color: ${props => props.$selected ? props.theme.colors["blue-700"] : props.theme.colors["purple-300"]
     };
 `
 
@@ -119,4 +118,25 @@ export const FeedbackList = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    padding: 1rem;
+
+    height: 80vh;
+    overflow-y: auto;
+
+    scrollbar-width: auto;
+    scrollbar-color: ${props => props.theme.colors["gray-300"]} ${props => props.theme.colors["gray-100"]};
+  
+    &::-webkit-scrollbar {
+        width: 0.5rem;
+    }
+  
+    &::-webkit-scrollbar-track {
+        background-color: ${props => props.theme.colors["gray-100"]};
+        border-radius: 8px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+        background: ${props => props.theme.colors["gray-300"]};
+        border-radius: 8px;
+    }
 `

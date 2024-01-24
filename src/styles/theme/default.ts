@@ -2,6 +2,7 @@ export const defaultTheme = {
     name: 'default',
     colors: {
         'white': '#FAFAFA',
+        'white-100': '#F3F3F3',
 
         'blue-700': '#0E1530',
         'blue-500': '#181F3E',

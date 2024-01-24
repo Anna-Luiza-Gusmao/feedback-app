@@ -9,6 +9,12 @@ export const FeedbackContainer = styled.section`
     background-color: ${props => props.theme.colors.white};
     border-radius: 16px;
     box-shadow: 0px 4px 8px 0px ${props => props.theme.colors["gray-600"]};  
+    transition: background 0.25s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        background-color: ${props => props.theme.colors["white-100"]};
+    }
 `
 
 const PatternDiv = styled.div`
