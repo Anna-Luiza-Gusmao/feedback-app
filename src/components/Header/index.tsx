@@ -1,6 +1,6 @@
 import { HeaderContainer, Profile } from "./styles"
 import LogoFeedbackApp from "../../assets/logo_header.png"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Menu,  { MenuProps } from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import Button from "@mui/material/Button"
@@ -8,6 +8,12 @@ import Avatar from "@mui/material/Avatar"
 import { SignOut } from "@phosphor-icons/react"
 import { styled } from '@mui/material/styles'
 import { useNavigate } from "react-router-dom"
+
+interface IUserData {
+    name: string
+    email: string
+    profilePhoto: string
+}
 
 const CustomButton = styled(Button)({
     backgroundColor: '#17171A',
@@ -42,6 +48,7 @@ const CustomMenu = styled((props: MenuProps) => (
 }))
 
 export function Header() {
+    const [userData, setUserData] = useState({} as IUserData)
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
     const navigate = useNavigate()
@@ -57,6 +64,24 @@ export function Header() {
         setAnchorEl(null)
     }
 
+    const getUserDataFromLocalStorage = () => {
+        const storedUserData = localStorage.getItem('GoogleAuthData')
+
+        if (storedUserData) {
+            return JSON.parse(storedUserData)
+        }
+
+        return {
+            name: 'not found',
+            email: 'not found',
+            profilePhoto: 'not found'
+        }
+    }
+
+    useEffect(() => {
+        setUserData(getUserDataFromLocalStorage())
+    }, [])
+
     return (
         <HeaderContainer>
             <img src={LogoFeedbackApp} alt="Logo Feedback App" />
@@ -67,11 +92,11 @@ export function Header() {
                     aria-haspopup="true"
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleClick}
-                    startIcon={<Avatar />}
+                    startIcon={<Avatar alt={userData.name} src={userData.profilePhoto} />}
                 >
                     <Profile>
-                        <p>Anna Luiza Santos</p>
-                        <p>luizasgusmao@gmail.com</p>
+                        <p>{userData.name}</p>
+                        <p>{userData.email}</p>
                     </Profile>
                 </CustomButton>
                 <CustomMenu
