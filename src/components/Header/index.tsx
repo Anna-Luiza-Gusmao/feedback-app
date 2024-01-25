@@ -54,6 +54,7 @@ export function Header() {
     const navigate = useNavigate()
 
     const handleLogoutApplication = () => {
+        localStorage.removeItem('GoogleAuthData')
         navigate("/")
     }
 
