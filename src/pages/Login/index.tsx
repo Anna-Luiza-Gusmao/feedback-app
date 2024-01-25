@@ -3,8 +3,11 @@ import FeedbackAppLogo from '../../assets/logo.png'
 import LogoGoogle from '../../assets/Google Icon.png'
 import { useNavigate } from "react-router-dom"
 import { signInWithGoogle } from "../../firebase/authGoogle"
+import { AlertGoogleAuthError } from "../../components/Alerts/GoogleAuthError"
+import { useState } from "react"
 
 export function LoginPage() {
+    const [openSnackbarGoogleAuthError, setOpenSnackbarGoogleAuthError] = useState(false)
     const navigate = useNavigate()
 
     const handleConnectWithGoogle = async () => {
@@ -13,6 +16,7 @@ export function LoginPage() {
             navigate('/home')
         } catch (error) {
             console.error("Error to sign in with Google Account: ", error)
+            setOpenSnackbarGoogleAuthError(true)
         }
     }
 
@@ -26,6 +30,11 @@ export function LoginPage() {
                     <p>Entre com o Google</p>
                 </ConnectGoogleButton>
             </LoginBox>
+
+            <AlertGoogleAuthError
+                openSnackbarGoogleAuthError={openSnackbarGoogleAuthError}
+                setOpenSnackbarGoogleAuthError={setOpenSnackbarGoogleAuthError}
+            />
         </PageContainer>
     )
 }
