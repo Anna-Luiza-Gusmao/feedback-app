@@ -2,12 +2,18 @@ import { ConnectGoogleButton, LoginBox, PageContainer } from "./styles"
 import FeedbackAppLogo from '../../assets/logo.png'
 import LogoGoogle from '../../assets/Google Icon.png'
 import { useNavigate } from "react-router-dom"
+import { signInWithGoogle } from "../../firebase/authGoogle"
 
 export function LoginPage() {
     const navigate = useNavigate()
 
-    const handleConnectWithGoogle = () => {
-        navigate('/home')
+    const handleConnectWithGoogle = async () => {
+        try {
+            await signInWithGoogle()
+            navigate('/home')
+        } catch (error) {
+            console.error("Error to sign in with Google Account: ", error)
+        }
     }
 
     return (
