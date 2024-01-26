@@ -16,6 +16,7 @@ import { CheckboxStatus } from "./components/Checkbox"
 import { useState } from "react"
 import TagsList from "./tagsList.json"
 import { FeedbackBox } from "../../components/FeedbackBox"
+import { ModalAddFeedback } from "./components/ModalAddFeedback"
 
 interface CheckedTags {
     [key: string]: boolean
@@ -28,6 +29,7 @@ export function HomePage() {
         concluded: false
     })
     const [isCheckedTags, setIsCheckedTags] = useState<CheckedTags>(TagsList.tags)
+    const [openAddFeedbackModal, setOpenAddFeedbackModal] = useState(false)
 
     const handleClearFilter = () => {
         setIsCheckedStatus({
@@ -127,7 +129,7 @@ export function HomePage() {
                 </BoxFromNavbar>
             </NavBar>
             <Content>
-                <Header />
+                <Header setOpenAddFeedbackModal={setOpenAddFeedbackModal} />
                 <FeedbackList>
                     {
                         Array(5).fill(null).map((_, index) => (
@@ -136,6 +138,8 @@ export function HomePage() {
                     }
                 </FeedbackList>
             </Content>
+
+            <ModalAddFeedback openAddFeedbackModal={openAddFeedbackModal} setOpenAddFeedbackModal={setOpenAddFeedbackModal}/>
         </HomeContainer>
     )
 }

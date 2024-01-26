@@ -8,6 +8,8 @@ export const defaultTheme = {
         'blue-500': '#181F3E',
         'blue-100': '#F6F8FC',
 
+        'red-400': '#DE0B0B',
+
         'black-700': '#0E0E10',
         'black-500': '#17171A',
 

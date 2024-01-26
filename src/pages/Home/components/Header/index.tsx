@@ -2,7 +2,11 @@ import { ArrowCircleDown, ArrowCircleUp, PlusCircle } from "@phosphor-icons/reac
 import { AddFeedbackButton, Box, HeaderContainer, NumberFeedbacksContainer, OrdererButton, OrdererContainer } from "./styles"
 import { useState } from "react"
 
-export function Header() {
+interface IHeaderProps {
+    setOpenAddFeedbackModal: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export function Header({setOpenAddFeedbackModal}: IHeaderProps) {
     const [feedbacksMostRecent, setFeedbacksMostRecent] = useState(true)
 
     const handleOrderOfFeedbacks = () => {
@@ -35,7 +39,7 @@ export function Header() {
                     }
                 </OrdererContainer>
             </Box>
-            <AddFeedbackButton>
+            <AddFeedbackButton onClick={() => setOpenAddFeedbackModal(true)}>
                 <PlusCircle size={24} />
                 <p>Adicionar Feedback</p>
             </AddFeedbackButton>
