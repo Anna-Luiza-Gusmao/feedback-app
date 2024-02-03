@@ -53,7 +53,7 @@ const PatternFormsContainer = styled.section`
     flex: 1;
     gap: 0.5rem;
 
-    h2 {
+    label {
         font-size: 1.25rem;
         font-weight: 600;
 
@@ -65,6 +65,18 @@ const PatternFormsContainer = styled.section`
     p {
         font-size: 0.875rem;
     }
+
+    input[type=text] {
+        font-size: 0.875rem;
+        border: none;
+        background-color: ${props => props.theme.colors["gray-150"]}; 
+        padding: 0.75rem;
+        border-radius: 8px;
+    }
+
+    input[type=text]:focus {
+        outline: 2px solid ${props => props.theme.colors["purple-300"]};  
+    }
 `
 
 export const TitleContainer = styled(PatternFormsContainer)`
@@ -72,7 +84,27 @@ export const TitleContainer = styled(PatternFormsContainer)`
 `
 
 export const DescriptionContainer = styled(PatternFormsContainer)`
-    
+    position: relative;
+
+    textarea {
+        resize: none;
+        border-radius: 8px;
+        border: none;
+        background-color: ${props => props.theme.colors["gray-150"]}; 
+        padding: 0.75rem;
+        font-size: 0.875rem;
+    }
+
+    textarea:focus {
+        outline: 2px solid ${props => props.theme.colors["purple-300"]};  
+    }
+`
+
+export const NumberOfCharacters = styled.p`
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.75rem;
+    color: ${props => props.theme.colors["gray-400"]}; 
 `
 
 export const TagsContainer = styled(PatternFormsContainer)`
