@@ -1,5 +1,5 @@
 import Modal from '@mui/material/Modal'
-import { AddFeedbackButton, Box, CloseButton, DescriptionContainer, NumberOfCharacters, TagsContainer, TitleContainer } from './styles'
+import { AddFeedbackButton, Box, CloseButton, DescriptionContainer, ErrorsContainer, NumberOfCharacters, TagsContainer, TitleContainer } from './styles'
 import { X } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
@@ -21,17 +21,21 @@ export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormValues>()
 
     const handleSubmitNewFeedback = handleSubmit((data) => {
-        console.log(data)
         setAmountCharactersInDescription(0)
         reset()
+        handleClose()
     })
 
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         const value = e.target.value
         const updatedValue = value.slice(0, 450)
 
-        setAmountCharactersInDescription(updatedValue.length)
-        setValue('description', updatedValue)
+        const hasEnoughCharacters = /.{0,9}\S/.test(updatedValue)
+
+        if (hasEnoughCharacters || updatedValue === '') {
+            setAmountCharactersInDescription(updatedValue.length)
+            setValue('description', updatedValue)
+        }
     }
 
     return (
@@ -54,6 +58,13 @@ export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal
                         name='title'
                         placeholder='Digite o título aqui'
                     />
+                    <ErrorsContainer>
+                        {
+                            errors.title?.type === 'minLength' ? <p role="alert">O título deve conter no mínimo 3 caracteres.</p>
+                                : errors.title?.type === 'required' ? <p role="alert">O campo de título é obrigatório.</p>
+                                    : <p style={{ visibility: 'hidden' }}>invisible</p>
+                        }
+                    </ErrorsContainer>
                 </TitleContainer>
                 <DescriptionContainer>
                     <label htmlFor='description'>Descrição<span>*</span></label>
@@ -67,6 +78,13 @@ export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal
                         onChange={handleDescriptionChange}
                     />
                     <NumberOfCharacters>{amountCharactersInDescription}/450</NumberOfCharacters>
+                    <ErrorsContainer>
+                        {
+                            errors.description?.type === 'minLength' ? <p role="alert">A descrição deve conter no mínimo 10 caracteres.</p>
+                                : errors.description?.type === 'required' ? <p role="alert">O campo de descrição é obrigatório.</p>
+                                    : <p style={{ visibility: 'hidden' }}>invisible</p>
+                        }
+                    </ErrorsContainer>
                 </DescriptionContainer>
                 <TagsContainer>
                     <label>Tags</label>

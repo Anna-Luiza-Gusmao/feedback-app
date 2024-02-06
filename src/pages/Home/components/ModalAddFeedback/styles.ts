@@ -10,7 +10,7 @@ export const Box = styled.form`
     width: 50%;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 
     padding: 3rem;
     background-color: ${props => props.theme.colors.white};
@@ -102,7 +102,7 @@ export const DescriptionContainer = styled(PatternFormsContainer)`
 
 export const NumberOfCharacters = styled.p`
     position: absolute;
-    bottom: 0.5rem;
+    bottom: 2rem;
     right: 0.75rem;
     color: ${props => props.theme.colors["gray-400"]}; 
 `
@@ -126,5 +126,13 @@ export const AddFeedbackButton = styled.button`
     &:hover {
         cursor: pointer;
         background-color: ${props => props.theme.colors["purple-400"]};
+    }
+`
+
+export const ErrorsContainer = styled.div`
+    p {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: ${props => props.theme.colors["red-400"]};  
     }
 `
