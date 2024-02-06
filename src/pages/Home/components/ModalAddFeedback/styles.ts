@@ -7,12 +7,13 @@ export const Box = styled.form`
     left: 50%;
     transform: translate(-50%, -50%);
 
+    max-height: 70vh;
     width: 50%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 
-    padding: 3rem;
+    padding: 3rem 2rem;
     background-color: ${props => props.theme.colors.white};
     border-radius: 16px;
     box-shadow: 0px 4px 8px 0px ${props => props.theme.colors["gray-600"]};  
@@ -21,6 +22,32 @@ export const Box = styled.form`
         font-size: 1.5rem;
         font-weight: 600;
         margin-bottom: 0.5rem;
+        padding-left: 1rem;
+    }
+`
+
+export const MainContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    padding: 0 1rem;
+    overflow-y: auto;
+    scrollbar-width: auto;
+    scrollbar-color: ${props => props.theme.colors["gray-300"]} ${props => props.theme.colors["gray-100"]};
+  
+    &::-webkit-scrollbar {
+        width: 0.5rem;
+    }
+  
+    &::-webkit-scrollbar-track {
+        background-color: ${props => props.theme.colors["gray-100"]};
+        border-radius: 8px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+        background: ${props => props.theme.colors["gray-300"]};
+        border-radius: 8px;
     }
 `
 
