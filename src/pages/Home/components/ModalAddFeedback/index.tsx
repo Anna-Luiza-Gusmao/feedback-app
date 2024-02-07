@@ -10,6 +10,7 @@ import { useTheme } from 'styled-components'
 interface IModalAddFeedbackProps {
     openAddFeedbackModal: boolean
     setOpenAddFeedbackModal: React.Dispatch<React.SetStateAction<boolean>>
+    setOpenAddedNewFeedbackSuccess: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type FormValues = {
@@ -18,7 +19,7 @@ type FormValues = {
     tags: Array<string>
 }
 
-export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal }: IModalAddFeedbackProps) {
+export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal, setOpenAddedNewFeedbackSuccess }: IModalAddFeedbackProps) {
     const handleClose = () => setOpenAddFeedbackModal(false)
     const [amountCharactersInDescription, setAmountCharactersInDescription] = useState(0)
     const tagOptions = [
@@ -89,10 +90,15 @@ export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal
 
     const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm<FormValues>()
 
-    const handleSubmitNewFeedback = handleSubmit((data) => {
-        setAmountCharactersInDescription(0)
-        reset()
-        handleClose()
+    const handleSubmitNewFeedback = handleSubmit(async (data) => {
+        try {
+            setAmountCharactersInDescription(0)
+            reset()
+            handleClose()
+            setOpenAddedNewFeedbackSuccess(true)
+        } catch (error) {
+
+        }
     })
 
     const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

@@ -17,6 +17,7 @@ import { useState } from "react"
 import TagsList from "./tagsList.json"
 import { FeedbackBox } from "../../components/FeedbackBox"
 import { ModalAddFeedback } from "./components/ModalAddFeedback"
+import { AlertAddedNewFeedbackSuccess } from "../../components/Alerts/AddedNewFeedback"
 
 interface CheckedTags {
     [key: string]: boolean
@@ -30,6 +31,7 @@ export function HomePage() {
     })
     const [isCheckedTags, setIsCheckedTags] = useState<CheckedTags>(TagsList.tags)
     const [openAddFeedbackModal, setOpenAddFeedbackModal] = useState(false)
+    const [openAddedNewFeedbackSuccess, setOpenAddedNewFeedbackSuccess] = useState(false)
 
     const handleClearFilter = () => {
         setIsCheckedStatus({
@@ -133,13 +135,18 @@ export function HomePage() {
                 <FeedbackList>
                     {
                         Array(5).fill(null).map((_, index) => (
-                            <FeedbackBox key={index} tagsName={["Front-end", "Tests"]}/>
+                            <FeedbackBox key={index} tagsName={["Front-end", "Tests"]} />
                         ))
                     }
                 </FeedbackList>
             </Content>
 
-            <ModalAddFeedback openAddFeedbackModal={openAddFeedbackModal} setOpenAddFeedbackModal={setOpenAddFeedbackModal}/>
+            <ModalAddFeedback
+                openAddFeedbackModal={openAddFeedbackModal}
+                setOpenAddFeedbackModal={setOpenAddFeedbackModal}
+                setOpenAddedNewFeedbackSuccess={setOpenAddedNewFeedbackSuccess}
+            />
+            <AlertAddedNewFeedbackSuccess openAddedNewFeedbackSuccess={openAddedNewFeedbackSuccess} setOpenAddedNewFeedbackSuccess={setOpenAddedNewFeedbackSuccess} />
         </HomeContainer>
     )
 }
