@@ -1,7 +1,7 @@
 import Modal from '@mui/material/Modal'
 import { AddFeedbackButton, Box, CloseButton, DescriptionContainer, ErrorsContainer, MainContent, NumberOfCharacters, TagsContainer, TitleContainer } from './styles'
 import { X } from '@phosphor-icons/react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { useState } from 'react'
 import Select, { StylesConfig, components, NoticeProps } from 'react-select'
 import makeAnimated from 'react-select/animated'
@@ -81,13 +81,13 @@ export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal
             color: theme.colors["gray-700"],
         })
     }
-    const CustomNoOptionsMessage = (props:NoticeProps) => (
+    const CustomNoOptionsMessage = (props: NoticeProps) => (
         <components.NoOptionsMessage {...props}>
-            <p style={{fontSize: '0.875rem'}}>Não há mais tags para serem selecionadas.</p>
+            <p style={{ fontSize: '0.875rem' }}>Não há mais tags para serem selecionadas.</p>
         </components.NoOptionsMessage>
     )
 
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormValues>()
+    const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm<FormValues>()
 
     const handleSubmitNewFeedback = handleSubmit((data) => {
         setAmountCharactersInDescription(0)
@@ -157,18 +157,26 @@ export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal
                         </ErrorsContainer>
                     </DescriptionContainer>
                     <TagsContainer>
-                        <label>Tags</label>
+                        <label htmlFor='tags'>Tags</label>
                         <p>Adicione uma ou mais tags para identificar a categoria responsável pelo seu novo feedback.</p>
-                        <Select
-                            closeMenuOnSelect={false}
-                            components={{
-                                ...animatedComponents,
-                                NoOptionsMessage: CustomNoOptionsMessage
-                            }}
-                            isMulti
-                            options={tagOptions}
-                            placeholder="Selecione uma ou mais tags"
-                            styles={customSelectStyles}
+                        <Controller
+                            name="tags"
+                            control={control}
+                            defaultValue={[]}
+                            render={({ field }) => (
+                                <Select
+                                    {...field}
+                                    closeMenuOnSelect={false}
+                                    components={{
+                                        ...animatedComponents,
+                                        NoOptionsMessage: CustomNoOptionsMessage
+                                    }}
+                                    isMulti
+                                    options={tagOptions}
+                                    placeholder="Selecione uma ou mais tags"
+                                    styles={customSelectStyles}
+                                />
+                            )}
                         />
                     </TagsContainer>
 
