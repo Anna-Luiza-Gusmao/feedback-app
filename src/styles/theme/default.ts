@@ -23,6 +23,7 @@ export const defaultTheme = {
         'gray-50': '#F3F3F3',
 
         'purple-400': '#8C1280',
-        'purple-300': '#7B3281'
+        'purple-300': '#7B3281',
+        'purple-100': '#DBCBDC'
     },
 }

@@ -3,6 +3,9 @@ import { AddFeedbackButton, Box, CloseButton, DescriptionContainer, ErrorsContai
 import { X } from '@phosphor-icons/react'
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
+import Select, { StylesConfig, components, NoticeProps } from 'react-select'
+import makeAnimated from 'react-select/animated'
+import { useTheme } from 'styled-components'
 
 interface IModalAddFeedbackProps {
     openAddFeedbackModal: boolean
@@ -18,6 +21,72 @@ type FormValues = {
 export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal }: IModalAddFeedbackProps) {
     const handleClose = () => setOpenAddFeedbackModal(false)
     const [amountCharactersInDescription, setAmountCharactersInDescription] = useState(0)
+    const tagOptions = [
+        { value: 'Todos', label: 'Todos' },
+        { value: 'UX/UI', label: 'UX/UI' },
+        { value: 'Front-end', label: 'Front-end' },
+        { value: 'Back-end', label: 'Back-end' },
+        { value: 'Bug', label: 'Bug' },
+        { value: 'Feature', label: 'Feature' },
+        { value: 'Enhancement', label: 'Enhancement' },
+        { value: 'Tests', label: 'Tests' },
+    ]
+    const animatedComponents = makeAnimated()
+    const theme = useTheme()
+    const customSelectStyles: StylesConfig = {
+        control: (baseStyles, state) => ({
+            ...baseStyles,
+            border: 'none',
+            outline: state.isFocused ? `2px solid ${theme.colors["purple-300"]}` : 'none',
+            background: theme.colors["gray-150"],
+            fontFamily: 'Inter',
+            fontSize: '0.875rem',
+        }),
+        option: (styles, { isDisabled, isFocused, isSelected }) => {
+            return {
+                ...styles,
+                fontFamily: 'Inter',
+                fontSize: '0.875rem',
+                backgroundColor: isSelected
+                    ? theme.colors["purple-100"]
+                    : isFocused
+                        ? theme.colors["purple-100"]
+                        : undefined,
+                color: isSelected
+                    ? theme.colors.white
+                    : 'black',
+
+                ':active': {
+                    ...styles[':active'],
+                    backgroundColor: !isDisabled
+                        ? isSelected
+                            ? 'none'
+                            : theme.colors["purple-100"]
+                        : undefined,
+                },
+            }
+        },
+        multiValue: (styles) => {
+            return {
+                ...styles,
+                backgroundColor: theme.colors["purple-100"],
+            }
+        },
+        multiValueLabel: (styles) => ({
+            ...styles,
+            color: theme.colors["gray-700"],
+        }),
+        placeholder: (base) => ({
+            ...base,
+            color: theme.colors["gray-700"],
+        })
+    }
+    const CustomNoOptionsMessage = (props:NoticeProps) => (
+        <components.NoOptionsMessage {...props}>
+            <p style={{fontSize: '0.875rem'}}>Não há mais tags para serem selecionadas.</p>
+        </components.NoOptionsMessage>
+    )
+
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<FormValues>()
 
     const handleSubmitNewFeedback = handleSubmit((data) => {
@@ -90,6 +159,17 @@ export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal
                     <TagsContainer>
                         <label>Tags</label>
                         <p>Adicione uma ou mais tags para identificar a categoria responsável pelo seu novo feedback.</p>
+                        <Select
+                            closeMenuOnSelect={false}
+                            components={{
+                                ...animatedComponents,
+                                NoOptionsMessage: CustomNoOptionsMessage
+                            }}
+                            isMulti
+                            options={tagOptions}
+                            placeholder="Selecione uma ou mais tags"
+                            styles={customSelectStyles}
+                        />
                     </TagsContainer>
 
                     <AddFeedbackButton type='submit'>Adicionar Feedback</AddFeedbackButton>

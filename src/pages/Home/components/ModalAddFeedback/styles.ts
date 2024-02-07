@@ -144,6 +144,7 @@ export const AddFeedbackButton = styled.button`
     text-align: center;
     font-size: 0.875rem;
     font-weight: 500;
+    margin: 1rem 0;
 
     color: ${props => props.theme.colors.white};  
     border-radius: 8px;
