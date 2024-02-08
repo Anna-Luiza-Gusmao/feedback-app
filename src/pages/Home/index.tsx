@@ -18,6 +18,7 @@ import TagsList from "./tagsList.json"
 import { FeedbackBox } from "../../components/FeedbackBox"
 import { ModalAddFeedback } from "./components/ModalAddFeedback"
 import { AlertAddedNewFeedbackSuccess } from "../../components/Alerts/AddedNewFeedback"
+import { AlertAddedNewFeedbackError } from "../../components/Alerts/ErrorAddedNewFeedback"
 
 interface CheckedTags {
     [key: string]: boolean
@@ -32,6 +33,7 @@ export function HomePage() {
     const [isCheckedTags, setIsCheckedTags] = useState<CheckedTags>(TagsList.tags)
     const [openAddFeedbackModal, setOpenAddFeedbackModal] = useState(false)
     const [openAddedNewFeedbackSuccess, setOpenAddedNewFeedbackSuccess] = useState(false)
+    const [openAddedNewFeedbackError, setOpenAddedNewFeedbackError] = useState(false)
 
     const handleClearFilter = () => {
         setIsCheckedStatus({
@@ -145,8 +147,10 @@ export function HomePage() {
                 openAddFeedbackModal={openAddFeedbackModal}
                 setOpenAddFeedbackModal={setOpenAddFeedbackModal}
                 setOpenAddedNewFeedbackSuccess={setOpenAddedNewFeedbackSuccess}
+                setOpenAddedNewFeedbackError={setOpenAddedNewFeedbackError}
             />
             <AlertAddedNewFeedbackSuccess openAddedNewFeedbackSuccess={openAddedNewFeedbackSuccess} setOpenAddedNewFeedbackSuccess={setOpenAddedNewFeedbackSuccess} />
+            <AlertAddedNewFeedbackError openAddedNewFeedbackError={openAddedNewFeedbackError} setOpenAddedNewFeedbackError={setOpenAddedNewFeedbackError}/>
         </HomeContainer>
     )
 }

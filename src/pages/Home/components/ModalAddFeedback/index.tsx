@@ -11,6 +11,7 @@ interface IModalAddFeedbackProps {
     openAddFeedbackModal: boolean
     setOpenAddFeedbackModal: React.Dispatch<React.SetStateAction<boolean>>
     setOpenAddedNewFeedbackSuccess: React.Dispatch<React.SetStateAction<boolean>>
+    setOpenAddedNewFeedbackError: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type FormValues = {
@@ -19,7 +20,12 @@ type FormValues = {
     tags: Array<string>
 }
 
-export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal, setOpenAddedNewFeedbackSuccess }: IModalAddFeedbackProps) {
+export function ModalAddFeedback({ 
+    openAddFeedbackModal, 
+    setOpenAddFeedbackModal, 
+    setOpenAddedNewFeedbackSuccess,
+    setOpenAddedNewFeedbackError
+}: IModalAddFeedbackProps) {
     const handleClose = () => setOpenAddFeedbackModal(false)
     const [amountCharactersInDescription, setAmountCharactersInDescription] = useState(0)
     const tagOptions = [
@@ -97,7 +103,7 @@ export function ModalAddFeedback({ openAddFeedbackModal, setOpenAddFeedbackModal
             handleClose()
             setOpenAddedNewFeedbackSuccess(true)
         } catch (error) {
-
+            setOpenAddedNewFeedbackError(true)
         }
     })
 
