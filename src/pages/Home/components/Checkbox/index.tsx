@@ -15,11 +15,15 @@ interface ICheckboxStatusProps {
 type StatusType = 'opened' | 'inProgress' | 'concluded'
 
 export function CheckboxStatus(props: ICheckboxStatusProps) {
+    const inputId = `${props.typeChecked}-checkbox`
+
     return (
         <div className="checkboxContainer">
-            <label className="container">
+            <label className="container" htmlFor={inputId}>
                 <input
+                    id={inputId}
                     type="checkbox"
+                    name={props.labelName}
                     checked={props.checked}
                     onChange={() => props.setIsCheckedStatus((prevStatus) => ({
                       ...prevStatus,
