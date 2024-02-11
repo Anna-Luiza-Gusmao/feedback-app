@@ -3,6 +3,7 @@ import {
     BoxFromNavbar,
     CheckboxContent,
     Content,
+    DataFeedbackEmpty,
     FeedbackList,
     HeaderFromNavbar,
     HeaderStatusFromNavbar,
@@ -13,15 +14,25 @@ import {
 } from "./styles"
 import { Header } from "./components/Header"
 import { CheckboxStatus } from "./components/Checkbox"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import TagsList from "./tagsList.json"
 import { FeedbackBox } from "../../components/FeedbackBox"
 import { ModalAddFeedback } from "./components/ModalAddFeedback"
 import { AlertAddedNewFeedbackSuccess } from "../../components/Alerts/AddedNewFeedback"
 import { AlertAddedNewFeedbackError } from "../../components/Alerts/ErrorAddedNewFeedback"
+import { database } from "../../firebase/config"
+import { collection, getDocs } from "firebase/firestore"
 
 interface CheckedTags {
     [key: string]: boolean
+}
+
+interface IDataFeedback {
+    id: string
+    title: string
+    description: string
+    createdAt: string
+    tagsName: Array<string>
 }
 
 export function HomePage() {
@@ -34,6 +45,7 @@ export function HomePage() {
     const [openAddFeedbackModal, setOpenAddFeedbackModal] = useState(false)
     const [openAddedNewFeedbackSuccess, setOpenAddedNewFeedbackSuccess] = useState(false)
     const [openAddedNewFeedbackError, setOpenAddedNewFeedbackError] = useState(false)
+    const [dataFeedback, setDataFeedback] = useState<IDataFeedback[]>([])
 
     const handleClearFilter = () => {
         setIsCheckedStatus({
@@ -72,6 +84,26 @@ export function HomePage() {
             return updatedTags
         })
     }
+
+    useEffect(() => {
+        async function getFeedbackData() {
+            const querySnapshot = await getDocs(collection(database, "feedbacks"))
+            let temporaryDataFeedback: IDataFeedback[] = []
+            querySnapshot.forEach((doc) => {
+                temporaryDataFeedback.push({
+                    id: doc.id,
+                    title: doc.data().title,
+                    description: doc.data().description,
+                    createdAt: doc.data().createdAt,
+                    tagsName: doc.data().tags
+                })
+            })
+
+            setDataFeedback(temporaryDataFeedback)
+        }
+
+        getFeedbackData()
+    }, [dataFeedback])
 
     return (
         <HomeContainer>
@@ -136,9 +168,16 @@ export function HomePage() {
                 <Header setOpenAddFeedbackModal={setOpenAddFeedbackModal} />
                 <FeedbackList>
                     {
-                        Array(5).fill(null).map((_, index) => (
-                            <FeedbackBox key={index} tagsName={["Front-end", "Tests"]} />
-                        ))
+                        (dataFeedback.length === 0) ? <DataFeedbackEmpty>Nenhum feedback adicionado.</DataFeedbackEmpty>
+                            : dataFeedback.map((feedback, index) => (
+                                <FeedbackBox
+                                    key={feedback.id}
+                                    index={index + 1}
+                                    title={feedback.title}
+                                    description={feedback.description}
+                                    tagsName={feedback.tagsName}
+                                />
+                            ))
                     }
                 </FeedbackList>
             </Content>
@@ -150,7 +189,7 @@ export function HomePage() {
                 setOpenAddedNewFeedbackError={setOpenAddedNewFeedbackError}
             />
             <AlertAddedNewFeedbackSuccess openAddedNewFeedbackSuccess={openAddedNewFeedbackSuccess} setOpenAddedNewFeedbackSuccess={setOpenAddedNewFeedbackSuccess} />
-            <AlertAddedNewFeedbackError openAddedNewFeedbackError={openAddedNewFeedbackError} setOpenAddedNewFeedbackError={setOpenAddedNewFeedbackError}/>
+            <AlertAddedNewFeedbackError openAddedNewFeedbackError={openAddedNewFeedbackError} setOpenAddedNewFeedbackError={setOpenAddedNewFeedbackError} />
         </HomeContainer>
     )
 }

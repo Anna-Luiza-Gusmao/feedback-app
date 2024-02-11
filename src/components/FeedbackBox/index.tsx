@@ -2,17 +2,20 @@ import { ChatCircleDots } from "@phosphor-icons/react"
 import { CommentBox, FeedbackContainer, FeedbackData, FeedbackDescription, FeedbackId, Tag } from "./styles"
 
 interface FeedbackBoxProps {
+    index: number
+    title: string
+    description: string
     tagsName: Array<string>
 }
 
-export function FeedbackBox({tagsName}: FeedbackBoxProps) {
+export function FeedbackBox({ index, title, description, tagsName }: FeedbackBoxProps) {
     return (
         <FeedbackContainer>
             <FeedbackData>
-                <FeedbackId>1</FeedbackId>
+                <FeedbackId>{index}</FeedbackId>
                 <FeedbackDescription>
-                    <p>Bug ao fazer login no sistema.</p>
-                    <p>Ao tentar logar no sistema não consegui acessar e nenhuma mensagem de erro apareceu.</p>
+                    <p>{title}</p>
+                    <p>{description}</p>
                     <section>
                         {
                             tagsName.map((tag, index) => (
@@ -24,7 +27,7 @@ export function FeedbackBox({tagsName}: FeedbackBoxProps) {
             </FeedbackData>
             <CommentBox>
                 <ChatCircleDots size={20} />
-                <p>2</p>
+                <p>0</p>
             </CommentBox>
         </FeedbackContainer>
     )

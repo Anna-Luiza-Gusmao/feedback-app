@@ -140,3 +140,7 @@ export const FeedbackList = styled.div`
         border-radius: 8px;
     }
 `
+
+export const DataFeedbackEmpty = styled.p`
+    color: ${props => props.theme.colors["gray-400"]};
+`

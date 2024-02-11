@@ -21,6 +21,7 @@ interface IModalAddFeedbackProps {
 const registerFormSchema = z.object({
     title: z.string(),
     description: z.string(),
+    createdAt: z.date(),
     tags: z.array(
         z.object({
             value: z.string(),
