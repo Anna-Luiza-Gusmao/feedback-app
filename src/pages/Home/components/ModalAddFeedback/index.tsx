@@ -6,6 +6,10 @@ import { useState } from 'react'
 import Select, { StylesConfig, components, NoticeProps } from 'react-select'
 import makeAnimated from 'react-select/animated'
 import { useTheme } from 'styled-components'
+import { format } from 'date-fns'
+import { database } from '../../../../firebase/config'
+import { addDoc, collection } from 'firebase/firestore'
+import { z } from 'zod'
 
 interface IModalAddFeedbackProps {
     openAddFeedbackModal: boolean
@@ -14,22 +18,33 @@ interface IModalAddFeedbackProps {
     setOpenAddedNewFeedbackError: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type FormValues = {
-    title: string
-    description: string
-    tags: Array<string>
+const registerFormSchema = z.object({
+    title: z.string(),
+    description: z.string(),
+    tags: z.array(
+        z.object({
+            value: z.string(),
+            label: z.string()
+        })
+    )
+})
+
+type RegisterFormData = z.infer<typeof registerFormSchema>
+
+type Tags = {
+    value: string,
+    label: string
 }
 
-export function ModalAddFeedback({ 
-    openAddFeedbackModal, 
-    setOpenAddFeedbackModal, 
+export function ModalAddFeedback({
+    openAddFeedbackModal,
+    setOpenAddFeedbackModal,
     setOpenAddedNewFeedbackSuccess,
     setOpenAddedNewFeedbackError
 }: IModalAddFeedbackProps) {
     const handleClose = () => setOpenAddFeedbackModal(false)
     const [amountCharactersInDescription, setAmountCharactersInDescription] = useState(0)
     const tagOptions = [
-        { value: 'Todos', label: 'Todos' },
         { value: 'UX/UI', label: 'UX/UI' },
         { value: 'Front-end', label: 'Front-end' },
         { value: 'Back-end', label: 'Back-end' },
@@ -94,15 +109,28 @@ export function ModalAddFeedback({
         </components.NoOptionsMessage>
     )
 
-    const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm<FormValues>()
+    const { register, handleSubmit, reset, setValue, control, formState: { errors } } = useForm<RegisterFormData>()
 
     const handleSubmitNewFeedback = handleSubmit(async (data) => {
         try {
+            const formattedCurrentDate = format(new Date(), 'yyyy-MM-dd HH:mm:ss')
             setAmountCharactersInDescription(0)
             reset()
             handleClose()
+
+            const tagsValue = data.tags.map((tag: Tags) => tag.value)
+
+            const docData = {
+                title: data.title,
+                description: data.description,
+                tags: tagsValue,
+                createdAt: formattedCurrentDate
+            }
+
+            await addDoc(collection(database, "feedbacks"), docData)
             setOpenAddedNewFeedbackSuccess(true)
         } catch (error) {
+            console.error(error)
             setOpenAddedNewFeedbackError(true)
         }
     })
