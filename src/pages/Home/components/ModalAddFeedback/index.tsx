@@ -115,8 +115,6 @@ export function ModalAddFeedback({
         try {
             const formattedCurrentDate = format(new Date(), 'yyyy-MM-dd HH:mm:ss')
             setAmountCharactersInDescription(0)
-            reset()
-            handleClose()
 
             const tagsValue = data.tags.map((tag: Tags) => tag.value)
 
@@ -128,6 +126,8 @@ export function ModalAddFeedback({
             }
 
             await addDoc(collection(database, "feedbacks"), docData)
+            reset()
+            handleClose()
             setOpenAddedNewFeedbackSuccess(true)
         } catch (error) {
             console.error(error)
