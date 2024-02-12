@@ -5,6 +5,7 @@ interface FeedbackBoxProps {
     index: number
     title: string
     description: string
+    status: 'opened' | 'inProgress' | 'concluded'
     tagsName: Array<string>
 }
 

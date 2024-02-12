@@ -32,6 +32,7 @@ interface IDataFeedback {
     title: string
     description: string
     createdAt: string
+    status: 'opened' | 'inProgress' | 'concluded'
     tagsName: Array<string>
 }
 
@@ -95,6 +96,7 @@ export function HomePage() {
                     title: doc.data().title,
                     description: doc.data().description,
                     createdAt: doc.data().createdAt,
+                    status: doc.data().status,
                     tagsName: doc.data().tags
                 })
             })
@@ -175,6 +177,7 @@ export function HomePage() {
                                     index={index + 1}
                                     title={feedback.title}
                                     description={feedback.description}
+                                    status={feedback.status}
                                     tagsName={feedback.tagsName}
                                 />
                             ))

@@ -22,6 +22,7 @@ const registerFormSchema = z.object({
     title: z.string(),
     description: z.string(),
     createdAt: z.date(),
+    status: z.string(),
     tags: z.array(
         z.object({
             value: z.string(),
@@ -122,8 +123,9 @@ export function ModalAddFeedback({
             const docData = {
                 title: data.title,
                 description: data.description,
-                tags: tagsValue,
-                createdAt: formattedCurrentDate
+                createdAt: formattedCurrentDate,
+                status: "opened",
+                tags: tagsValue
             }
 
             await addDoc(collection(database, "feedbacks"), docData)
