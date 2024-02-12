@@ -3,10 +3,11 @@ import { AddFeedbackButton, Box, HeaderContainer, NumberFeedbacksContainer, Orde
 import { useState } from "react"
 
 interface IHeaderProps {
+    amountFeedbacks: number
     setOpenAddFeedbackModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function Header({setOpenAddFeedbackModal}: IHeaderProps) {
+export function Header({amountFeedbacks, setOpenAddFeedbackModal}: IHeaderProps) {
     const [feedbacksMostRecent, setFeedbacksMostRecent] = useState(true)
 
     const handleOrderOfFeedbacks = () => {
@@ -18,7 +19,7 @@ export function Header({setOpenAddFeedbackModal}: IHeaderProps) {
             <Box>
                 <NumberFeedbacksContainer>
                     <div>
-                        <p>3</p>
+                        <p>{amountFeedbacks}</p>
                     </div>
                     <p>Feedbacks</p>
                 </NumberFeedbacksContainer>

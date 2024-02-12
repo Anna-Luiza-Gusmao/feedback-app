@@ -165,7 +165,7 @@ export function HomePage() {
                 </BoxFromNavbar>
             </NavBar>
             <Content>
-                <Header setOpenAddFeedbackModal={setOpenAddFeedbackModal} />
+                <Header amountFeedbacks={dataFeedback.length} setOpenAddFeedbackModal={setOpenAddFeedbackModal} />
                 <FeedbackList>
                     {
                         (dataFeedback.length === 0) ? <DataFeedbackEmpty>Nenhum feedback adicionado.</DataFeedbackEmpty>
