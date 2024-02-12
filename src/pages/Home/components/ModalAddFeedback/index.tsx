@@ -118,7 +118,7 @@ export function ModalAddFeedback({
             const formattedCurrentDate = format(new Date(), 'yyyy-MM-dd HH:mm:ss')
             setAmountCharactersInDescription(0)
 
-            const tagsValue = data.tags.map((tag: Tags) => tag.value)
+            const tagsValue = data.tags.map((tag: Tags) => tag.value).sort()
 
             const docData = {
                 title: data.title,
