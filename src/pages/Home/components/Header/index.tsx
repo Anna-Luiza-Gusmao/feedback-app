@@ -1,17 +1,27 @@
 import { ArrowCircleDown, ArrowCircleUp, PlusCircle } from "@phosphor-icons/react"
 import { AddFeedbackButton, Box, HeaderContainer, NumberFeedbacksContainer, OrdererButton, OrdererContainer } from "./styles"
-import { useState } from "react"
+import { IDataFeedback } from "../../../../@types/IDataFeedback"
 
 interface IHeaderProps {
     amountFeedbacks: number
+    handleChronologicalOrderOfFeedbacks: (order: string, dataFeedback: IDataFeedback[]) => IDataFeedback[]
     setOpenAddFeedbackModal: React.Dispatch<React.SetStateAction<boolean>>
+    chronologicalOrderOfFeedbacks: string
+    setChronologicalOrderOfFeedbacks: React.Dispatch<React.SetStateAction<string>>
+    dataFeedback: IDataFeedback[]
 }
 
-export function Header({amountFeedbacks, setOpenAddFeedbackModal}: IHeaderProps) {
-    const [feedbacksMostRecent, setFeedbacksMostRecent] = useState(true)
-
-    const handleOrderOfFeedbacks = () => {
-        setFeedbacksMostRecent(!feedbacksMostRecent)
+export function Header({
+    amountFeedbacks,
+    handleChronologicalOrderOfFeedbacks,
+    setOpenAddFeedbackModal,
+    chronologicalOrderOfFeedbacks,
+    setChronologicalOrderOfFeedbacks,
+    dataFeedback
+}: IHeaderProps) {
+    const handleOrderOfFeedbacks = (order: string) => {
+        setChronologicalOrderOfFeedbacks(order)
+        handleChronologicalOrderOfFeedbacks(order, dataFeedback)
     }
 
     return (
@@ -26,14 +36,14 @@ export function Header({amountFeedbacks, setOpenAddFeedbackModal}: IHeaderProps)
                 <OrdererContainer>
                     <p>Ordenar por:</p>
                     {
-                        feedbacksMostRecent ? (
-                            <OrdererButton onClick={handleOrderOfFeedbacks}>
-                                <p>Mais recentes</p>
+                        chronologicalOrderOfFeedbacks === "older" ? (
+                            <OrdererButton onClick={() => handleOrderOfFeedbacks("last")}>
+                                <p>Mais antigos</p>
                                 <ArrowCircleDown size={24} />
                             </OrdererButton>
                         ) : (
-                            <OrdererButton onClick={handleOrderOfFeedbacks}>
-                                <p>Mais antigos</p>
+                            <OrdererButton onClick={()=> handleOrderOfFeedbacks("older")}>
+                                <p>Mais recentes</p>
                                 <ArrowCircleUp size={24} />
                             </OrdererButton>
                         )
