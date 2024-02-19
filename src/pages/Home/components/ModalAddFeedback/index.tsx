@@ -11,11 +11,15 @@ import { database } from '../../../../firebase/config'
 import { addDoc, collection } from 'firebase/firestore'
 import { z } from 'zod'
 
+type UseStateForBoolean = React.Dispatch<React.SetStateAction<boolean>>
+
 interface IModalAddFeedbackProps {
     openAddFeedbackModal: boolean
-    setOpenAddFeedbackModal: React.Dispatch<React.SetStateAction<boolean>>
-    setOpenAddedNewFeedbackSuccess: React.Dispatch<React.SetStateAction<boolean>>
-    setOpenAddedNewFeedbackError: React.Dispatch<React.SetStateAction<boolean>>
+    setOpenAddFeedbackModal: UseStateForBoolean
+    setOpenAddedNewFeedbackSuccess: UseStateForBoolean
+    setOpenAddedNewFeedbackError: UseStateForBoolean
+    addedNewFeedback: boolean
+    setAddedNewFeedback: UseStateForBoolean
 }
 
 const registerFormSchema = z.object({
@@ -42,7 +46,9 @@ export function ModalAddFeedback({
     openAddFeedbackModal,
     setOpenAddFeedbackModal,
     setOpenAddedNewFeedbackSuccess,
-    setOpenAddedNewFeedbackError
+    setOpenAddedNewFeedbackError,
+    addedNewFeedback,
+    setAddedNewFeedback
 }: IModalAddFeedbackProps) {
     const handleClose = () => setOpenAddFeedbackModal(false)
     const [amountCharactersInDescription, setAmountCharactersInDescription] = useState(0)
@@ -131,6 +137,7 @@ export function ModalAddFeedback({
             await addDoc(collection(database, "feedbacks"), docData)
             reset()
             handleClose()
+            setAddedNewFeedback(!addedNewFeedback)
             setOpenAddedNewFeedbackSuccess(true)
         } catch (error) {
             console.error(error)

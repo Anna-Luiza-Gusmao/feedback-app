@@ -40,6 +40,7 @@ export function HomePage() {
     const [openAddedNewFeedbackError, setOpenAddedNewFeedbackError] = useState(false)
     const [dataFeedback, setDataFeedback] = useState<IDataFeedback[]>([])
     const [chronologicalOrderOfFeedbacks, setChronologicalOrderOfFeedbacks] = useState("older")
+    const [addedNewFeedback, setAddedNewFeedback] = useState(false)
 
     const handleClearFilter = () => {
         setIsCheckedStatus({
@@ -132,7 +133,7 @@ export function HomePage() {
         }
 
         getFeedbackData()
-    }, [])
+    }, [addedNewFeedback])
 
     return (
         <HomeContainer>
@@ -224,6 +225,8 @@ export function HomePage() {
                 setOpenAddFeedbackModal={setOpenAddFeedbackModal}
                 setOpenAddedNewFeedbackSuccess={setOpenAddedNewFeedbackSuccess}
                 setOpenAddedNewFeedbackError={setOpenAddedNewFeedbackError}
+                addedNewFeedback={addedNewFeedback}
+                setAddedNewFeedback={setAddedNewFeedback}
             />
             <AlertAddedNewFeedbackSuccess openAddedNewFeedbackSuccess={openAddedNewFeedbackSuccess} setOpenAddedNewFeedbackSuccess={setOpenAddedNewFeedbackSuccess} />
             <AlertAddedNewFeedbackError openAddedNewFeedbackError={openAddedNewFeedbackError} setOpenAddedNewFeedbackError={setOpenAddedNewFeedbackError} />
